@@ -4,7 +4,9 @@
 
 # import the necessary packages
 from collections import deque
+import math
 import numpy as np
+from numpy import *
 import argparse
 import imutils
 import cv2
@@ -32,7 +34,7 @@ direction = ""
 # if a video path was not supplied, grab the reference
 # to the webcam
 if not args.get("video", False):
-	camera = cv2.VideoCapture(0)
+	camera = cv2.VideoCapture(0	)
 
 # otherwise, grab a reference to the video file
 else:
@@ -40,6 +42,21 @@ else:
 
 count=0
 edges=[0,0,0,0]
+def perp( a ) :
+    b = empty_like(a)
+    b[0] = -a[1]
+    b[1] = a[0]
+    return b
+
+def seg_intersect(a1,a2, b1,b2) :
+    da = a2-a1
+    db = b2-b1
+    dp = a1-b1
+    dap = perp(da)
+    denom = dot( dap, db)
+    num = dot( dap, dp )
+    return (num / denom.astype(float))*db + b1
+
 
 def order_points(pts):
 	# initialzie a list of coordinates that will be ordered
@@ -102,15 +119,6 @@ def four_point_transform(image, pts):
 	# return the warped image
 	return warped
 
-
-
-
-
-
-
-
-
-
 # keep looping
 while True:
 	# grab the current frame
@@ -149,15 +157,6 @@ while True:
 		((x, y), radius) = cv2.minEnclosingCircle(c)
 		M = cv2.moments(c)
 		center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-
-		# only proceed if the radius meets a minimum size
-		if radius > 10:
-			# draw the circle and centroid on the frame,
-			# then update the list of tracked points
-			cv2.circle(frame, (int(x), int(y)), int(radius),
-				(0, 255, 255), 2)
-			cv2.circle(frame, center, 5, (0, 0, 255), -1)
-			pts.appendleft(center)
 
 
 	# loop over the set of tracked points
@@ -212,6 +211,15 @@ while True:
 		cv2.imshow("Frame", frame)
 		key = cv2.waitKey(5) & 0xFF
 		counter += 1
+
+		# only proceed if the radius meets a minimum size
+		if radius > 10:
+			# draw the circle and centroid on the frame,
+			# then update the list of tracked points
+			cv2.circle(frame, (int(x), int(y)), int(radius),
+				(0, 255, 255), 2)
+			cv2.circle(frame, center, 5, (0, 0, 255), -1)
+			pts.appendleft(center)
 	
 	if(count>3):
 
@@ -219,19 +227,55 @@ while True:
 	#	str1=("[")+str1+("]")
 	#	pts = np.array(eval(args[str1]), dtype = "float32")
 		wimage=four_point_transform(frame, edges)
+		A=array( edges[0])
+		B=array( edges[1])
+		C=array( edges[2])
+		D=array( edges[3])
+
+		seg_intersect(A,B,C,D)
 
 		# show the frame to our screen and increment the frame counter
 		cv2.imshow("WFrame", wimage)
 		key = cv2.waitKey(5) & 0xFF
 		counter += 1
 
-	
+		# only proceed if the radius meets a minimum size
+		if radius > 10:
+			# draw the circle and centroid on the frame,
+			# then update the list of tracked points
+			cv2.circle(wimage, (int(x), int(y)), int(radius),
+				(0, 255, 255), 2)
+			cv2.circle(wimage, center, 5, (0, 0, 255), -1)
+			pts.appendleft(center)
+			K =center
+
+		E = seg_intersect(A,B,C,D)
+		F = seg_intersect(D,A,B,C)
+
+
+		P = seg_intersect(B,C,E,K)
+		Q = seg_intersect(C,D,E,K)
+
+
+		R = seg_intersect(A,B,F,K)
+		S = seg_intersect(D,C,F,K)
+		h1=math.fabs(np.linalg.norm(K - Q))
+		h2=math.fabs(np.linalg.norm(Q - P))
+
+		h3=math.fabs(np.linalg.norm(K - S))
+		h4=math.fabs(np.linalg.norm(S - R))
+
+		y= math.fabs(((h1-h2)/h2)*720)
+		x= math.fabs(((h3-h4)/h4)*1366)
+		Ncentre=[x,y]
 
 	# if the 'q' key is pressed, stop the loop
 	if key == ord("q"):
 		break
 
-
+	if key == ord("c"):
+		print (center)
+		print (Ncentre)
 	if key == ord("k"):
 		if(count<4):
 			edges[count]= [center[0],center[1]]
