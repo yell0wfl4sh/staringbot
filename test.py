@@ -108,13 +108,13 @@ def four_point_transform(image, pts):
 	# order
 	dst = np.array([
 		[0, 0],
-		[1366, 0],
-		[1366, 760],
-		[0, 760]], dtype = "float32")
+		[1000, 0],
+		[1000, 600],
+		[0, 600]], dtype = "float32")
 
 	# compute the perspective transform matrix and then apply it
 	M = cv2.getPerspectiveTransform(rect, dst)
-	warped = cv2.warpPerspective(image, M, (1366, 766))
+	warped = cv2.warpPerspective(image, M, (1000, 600))
 
 	# return the warped image
 	return warped
@@ -259,14 +259,14 @@ while True:
 
 		R = seg_intersect(A,B,F,K)
 		S = seg_intersect(D,C,F,K)
-		h1=math.fabs(np.linalg.norm(K - Q))
+		h1=math.fabs(np.linalg.norm(P - K))
 		h2=math.fabs(np.linalg.norm(Q - P))
 
-		h3=math.fabs(np.linalg.norm(K - S))
+		h3=math.fabs(np.linalg.norm(R -K))
 		h4=math.fabs(np.linalg.norm(S - R))
 
-		y= math.fabs(((h1-h2)/h2)*720)
-		x= math.fabs(((h3-h4)/h4)*1366)
+		y= math.fabs((h1/h2)*600)
+		x= math.fabs((h3/h4)*1000)
 		Ncentre=[x,y]
 
 	# if the 'q' key is pressed, stop the loop

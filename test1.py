@@ -21,14 +21,13 @@ def seg_intersect(a1,a2, b1,b2) :
 
 A = array( [0.0, 0.0] )
 B = array( [1.0, 2.0] )
-
-D = array( [4.0, -5.0] )
 C = array( [4.0, 3.0] )
+D = array( [4.0, -5.0] )
+
 
 E = seg_intersect(A,B,C,D)
 F = seg_intersect(D,A,B,C)
 
-K=array ([1 ,1 ])
 
 P = seg_intersect(B,C,E,K)
 Q = seg_intersect(C,D,E,K)
