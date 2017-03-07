@@ -21,8 +21,8 @@ args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space
-yellowLower = (20, 100, 100)
-yellowUpper = (30, 255, 255)
+yellowLower = (23,41,133)
+yellowUpper = (40,150,255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
@@ -34,7 +34,7 @@ direction = ""
 # if a video path was not supplied, grab the reference
 # to the webcam
 if not args.get("video", False):
-	camera = cv2.VideoCapture(0	)
+	camera = cv2.VideoCapture(-1)
 
 # otherwise, grab a reference to the video file
 else:
@@ -220,7 +220,7 @@ while True:
 				(0, 255, 255), 2)
 			cv2.circle(frame, center, 5, (0, 0, 255), -1)
 			pts.appendleft(center)
-	
+
 	if(count>3):
 
 	#	str1 = ",".join(str(e) for e in edges )
@@ -236,11 +236,11 @@ while True:
 
 		# show the frame to our screen and increment the frame counter
 		cv2.imshow("WFrame", wimage)
-		key = cv2.waitKey(5) & 0xFF
+		key = cv2.waitKey(100) & 0xFF
 		counter += 1
 
 		# only proceed if the radius meets a minimum size
-		if radius > 10:
+		if radius > 0:
 			# draw the circle and centroid on the frame,
 			# then update the list of tracked points
 			cv2.circle(wimage, (int(x), int(y)), int(radius),
@@ -254,7 +254,7 @@ while True:
 
 
 		P = seg_intersect(B,C,E,K)
-		Q = seg_intersect(C,D,E,K)
+		Q = seg_intersect(A,D,E,K)
 
 
 		R = seg_intersect(A,B,F,K)
@@ -265,9 +265,9 @@ while True:
 		h3=math.fabs(np.linalg.norm(R -K))
 		h4=math.fabs(np.linalg.norm(S - R))
 
-		y= math.fabs((h1/h2)*600)
-		x= math.fabs((h3/h4)*1000)
-		Ncentre=[x,y]
+		y= math.fabs((h1*600)/h2)
+		x= math.fabs((h3*1000)/h4)
+		Ncentre = [x,y]
 
 	# if the 'q' key is pressed, stop the loop
 	if key == ord("q"):
