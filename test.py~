@@ -10,10 +10,10 @@ from numpy import *
 import argparse
 import imutils
 import cv2
-import serial
+#import serial
 
 
-ser=serial.Serial('/dev/ttyACM0',9600)
+#ser=serial.Serial('/dev/ttyUSB0',9600)
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video",
@@ -144,7 +144,6 @@ while True:
 	mask = cv2.inRange(hsv, yellowLower, yellowUpper)
 	mask = cv2.erode(mask, None, iterations=2)
 	mask = cv2.dilate(mask, None, iterations=2)
-
 
 	# find contours in the mask and initialize the current
 	# (x, y) center of the ball
@@ -279,14 +278,14 @@ while True:
 
 	if key == ord("n"):
 		print (center)
-		ser.write
+		#ser.write
 	if key == ord("c"):
 		print (center)
 		print (Ncentre)
-		x1=str(int(x))
-		y1=str(int(y))
-		send=x1+' '+y1
-		ser.write(send)
+		x1=str(x)
+		y1=str(y)
+		#ser.write(x1)
+		#ser.write(y1)
 		
 	if key == ord("k"):
 		if(count<4):
