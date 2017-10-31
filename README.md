@@ -1,13 +1,13 @@
 # Abstract
 
-MarsMOdel bot is an autonomous object detecting bot. It has the ability to detect the object moving in front of him. It uses Image Processing for detection of object. Motor drivers are used to control the movement of robot. Servos provide movement to head of the bot. A tiny wireless spy camera is mounted on the ceiling. live feed can be seen on the screen to which receiver is connected and tuned. 
+MarsModel bot is an autonomous object detecting bot. It has the ability to detect the object moving in front of him. It uses Image Processing for detection of object. Motor drivers are used to control the movement of robot. Servos provide movement to head of the bot. A tiny wireless spy camera is mounted on the ceiling. live feed can be seen on the screen to which receiver is connected and tuned. 
 
 # Team Members
-
-Yash Agrawal
-Yash Jain
-Ujjwal Gupta
-Shubham Sharele
+ 
+- Yash Agrawal
+- Yash Jain
+- Ujjwal Gupta
+- Shubham Sharele
 
 # Mentors
 
@@ -27,7 +27,7 @@ Ply board
 # Electronics
 
 1 Arduino UNO
-Wireless camera
+2 Wireless camera
 
 # Electronic Design
 
