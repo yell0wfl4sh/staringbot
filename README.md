@@ -1,6 +1,6 @@
 # Abstract
 
-MarsModel bot is an autonomous object detecting bot. It has the ability to detect the object moving in front of him. It uses Image Processing for detection of object. Motor drivers are used to control the movement of robot. Servos provide movement to head of the bot. A tiny wireless spy camera is mounted on the ceiling. live feed can be seen on the screen to which receiver is connected and tuned. 
+staringbot is an autonomous object detecting bot. It has the ability to detect the object moving in front of him. It uses Image Processing for detection of object. Motor drivers are used to control the movement of robot. Servos provide movement to head of the bot. A tiny wireless spy camera is mounted on the ceiling. live feed can be seen on the screen to which receiver is connected and tuned. 
 
 # Team Members
  
@@ -47,7 +47,7 @@ Other requirement to be satisfied to detect an object are-
 3. It will by default capture only one object if multiple objects are brought in front of it. The object detected will cover the largest the area on screen.
 
 # File:
-The Program of concern or for MaRsModel is test.py, rest of them are usefull programs that helped me for better understanding of openCV.
+The Program of concern or for staringbot is test.py, rest of them are usefull programs that helped me for better understanding of openCV.
 
 # Install:
 To run this program on your system:
